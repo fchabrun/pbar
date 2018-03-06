@@ -1,0 +1,13 @@
+Package: pbar
+Type: Package
+Title: Simple to Entirely Customizable Progress Bar with Low Memory Consumption and CPU Usage
+Version: 2.0.3
+Date: 2018-03-01
+Author: Floris CHABRUN
+Maintainer: Floris CHABRUN <floris.chabrun@gmail.com>
+Description: Allows to easily create simple to entirely customizable progress bars in console output. Very low memory consumption and CPU usage (compared to other progress bars R packages available) without any parameters tuning required.
+License: GPL-3
+RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
