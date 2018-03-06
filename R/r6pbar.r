@@ -178,7 +178,7 @@ pb <- R6::R6Class("Progress Bar",
                   cpt_tetexact = NULL,
                   cpt_pbar = NULL,
                   laststreamlength = NULL,
-                  initialize = function(max = 0, format = ':current/:shorttotal :bar:percent Elapsed: :elapsed ETA: :eta/:tet', cursors = c('#',' '), bounds = c('|','|'), ini = 0, barlength = 10, outputpace = 0, mindelay = 0.1, spiningcursor = T) {
+                  initialize = function(max = 0, format = ':current/:shorttotal [:bar] :percent Elapsed: :elapsed ETA: :eta/:tet', cursors = c('#',' '), ini = 0, barlength = 10, outputpace = 0, mindelay = 0.1, spiningcursor = T) {
                     # Analyze formatting
                     # possible formats :
                     # :bar
@@ -252,11 +252,6 @@ pb <- R6::R6Class("Progress Bar",
                     } else {
                       self$cursors = cursors
                     }
-                    if (!(is.vector(bounds)&is.character(bounds)&length(bounds)==2)) {
-                      self$bounds = c('|','|')
-                    } else {
-                      self$bounds = bounds
-                    }
                     # Prepare formatting
                     self$cpt_current = grepl(':current',format)
                     self$cpt_total = grepl(':total',format)
@@ -329,22 +324,20 @@ pb <- R6::R6Class("Progress Bar",
                         }
                         
                         # Design progress bar
-                        tmp_pbar = character(self$barlength+2)
-                        tmp_pbar[1] = self$bounds[1]
-                        tmp_pbar[length(tmp_pbar)] = self$bounds[2]
+                        tmp_pbar = character(self$barlength)
                         for(j in 1:self$barlength) {
                           if (p>=j*100/self$barlength) {
-                            tmp_pbar[j+1] = self$cursors[1]
+                            tmp_pbar[j] = self$cursors[1]
                           }
                           else {
                             if (p>=(j-1)*100/self$barlength) {
                               if (self$animate) {
-                                tmp_pbar[j+1] = self$animcursor[self$animstate]
+                                tmp_pbar[j] = self$animcursor[self$animstate]
                               } else {
-                                tmp_bar[j+1] = self$cursors[2]
+                                tmp_bar[j] = self$cursors[2]
                               }
                             } else {
-                              tmp_pbar[j+1] = self$cursors[2]
+                              tmp_pbar[j] = self$cursors[2]
                             }
                           }
                         }
