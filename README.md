@@ -8,16 +8,20 @@ The progress bars are entirely customizable (informations output, time formattin
 
 Examples :
 
-# More examples can be found by using R help() function.
+More examples can be found by using R help() function.
+
+```
 n = 1000
 my_pb = pb$new(n)
 for(i in 1:n) {
   Sys.sleep(0.001)
   my_pb$update()
 }
+```
 
-# The example below compares pbar R package with progress R package
+The example below compares pbar R package with progress R package
 
+```
 n = 100000
 
 x = rep('Hello',n)
@@ -56,3 +60,4 @@ progress_bar_time = proc.time()[3] - t0
 no_bar_time # 0.30 seconds
 my_bar_time # about 3.00 seconds
 progress_bar_time # 100.00 to 120.00 seconds
+```
