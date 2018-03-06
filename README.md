@@ -6,7 +6,7 @@ Very low memory consumption and CPU usage (compared to other progress bars R pac
 
 The progress bars are entirely customizable (informations output, time formatting, progress bars cursors...). Unlike other progress bars R packages available, focuses on low memory consumption and CPU usage (e.g. about 10 to 40 times faster than progress R package, see examples), without any parameters tuning required. May display current progress, progress percentage, elapsed time, estimated time available (ETA) or total estimated time (TET), which is useful to easily evaluates if the iterations get faster or slower when work progresses. Check quick-start vignette, examples and R help() function for more information.
 
-Examples :
+## Examples :
 
 More examples can be found by using R help() function.
 
