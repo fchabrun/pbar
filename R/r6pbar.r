@@ -65,6 +65,33 @@ shortformattime <- function(s) {
   return(round(s) %+% 's')
 }
 
+#' Short speed format function
+#' 
+#' Converts speed in indexes per second to most easily readable two-decimal unit, between
+#' indexes per day (i/d), hour (i/h), minute (i/m) or second (i/s), followed by the corresponding
+#' unit
+#' 
+#' @param ips A numerical variable, a speed in indexes per second to convert.
+#' @return A character variable, formatted to short speed
+#' @examples
+#' shortformatspeed(4564) # outputs '4564 i/s'
+#' shortformatspeed(45) # outputs '45 i/s'
+#' shortformatspeed(48/60) # outputs '48 i/m'
+#' shortformatspeed(3/60) # outputs '3 i/m'
+#' shortformatspeed(45/3600) # outputs '45 i/h'
+#' shortformatspeed(0.5/3600) # outputs '12 i/d'
+#' @export
+shortformatspeed <- function(ips) {
+  if (ips<1/3600)
+    return(round(ips*86400, 2) %+% ' i/d')
+  if (ips<1/60)
+    return(round(ips*3600, 2) %+% ' i/h')
+  if (ips<1)
+    return(round(ips*60, 2) %+% ' i/m')
+  return(round(ips, 2) %+% ' i/s')
+}
+
+
 #' Progress bar
 #' 
 #' Creates a progress bar object by calling the \code{new} function. Progress
@@ -177,8 +204,9 @@ pb <- R6::R6Class("Progress Bar",
                   cpt_tet = NULL,
                   cpt_tetexact = NULL,
                   cpt_pbar = NULL,
+                  cpt_speed = NULL,
                   laststreamlength = NULL,
-                  initialize = function(max = 0, format = ':current/:shorttotal [:bar] :percent Elapsed: :elapsed ETA: :eta/:tet', cursors = c('#',' '), ini = 0, barlength = 10, outputpace = 0, mindelay = 0.1, spiningcursor = T) {
+                  initialize = function(max = 0, format = ':current/:shorttotal [:bar] :percent Elapsed: :elapsed ETA: :eta/:tet (:speed)', cursors = c('#',' '), ini = 0, barlength = 10, outputpace = 0, mindelay = 0.1, spiningcursor = T) {
                     # Analyze formatting
                     # possible formats :
                     # :bar
@@ -192,6 +220,7 @@ pb <- R6::R6Class("Progress Bar",
                     # :eta
                     # :tetexact # Total Estimated Time
                     # :tet
+                    # :speed
                     # Set max to 0 if negative value provided
                     if (max < 0)
                       max = 0
@@ -263,6 +292,7 @@ pb <- R6::R6Class("Progress Bar",
                     self$cpt_elapsedexact = grepl(':elapsedexact',format)
                     self$cpt_etaexact = grepl(':etaexact',format)
                     self$cpt_tetexact = grepl(':tetexact',format)
+                    self$cpt_speed = grepl(':speed',format)
                     self$cpt_pbar = grepl(':bar',format) & max > 0 & barlength > 0
                   },
                   update = function(i = 1) {
@@ -313,6 +343,8 @@ pb <- R6::R6Class("Progress Bar",
                         tmp_bar = gsub(':tetexact',ifelse(self$max > 0, formattime(tet), '??:??s'),tmp_bar)
                       if (self$cpt_tet)
                         tmp_bar = gsub(':tet',ifelse(self$max > 0, shortformattime(tet), '??'),tmp_bar)
+                      if (self$cpt_speed)
+                        tmp_bar = gsub(':speed',shortformatspeed((self$cur - self$ini) / dt),tmp_bar)
                       
                       if (self$cpt_pbar) {
                         # Update cursor

@@ -3,4 +3,5 @@
 export("%+%")
 export(formattime)
 export(pb)
+export(shortformatspeed)
 export(shortformattime)
