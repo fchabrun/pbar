@@ -37,8 +37,8 @@ no_bar_time = proc.time()[3] - t0
 
 # Second loop, with pbar progress bar
 t0 = proc.time()[3]
-my_pb = pb$new(n,
-               format = 'Progress: [:bar] :percent Elapsed: :elapsedexact ETA: :eta/:tet')
+my_pb = pb$new(n)
+# my_pb = pb$new(n, format = 'Progress: [:bar] :percent Elapsed: :elapsedexact ETA: :eta/:tet')
 for (i in 1:n) {
   z = paste0(x[i], ' ', y[i], '!')
   my_pb$update()
